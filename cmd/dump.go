@@ -34,8 +34,5 @@ func doDump(cmd *cobra.Command, args []string) {
 		log.Fatalf("dump: %v", err)
 	}
 
-	for _, e := range events {
-		fmt.Print(e)
-	}
-
+	fmt.Print(calendly.EventsCSV(events))
 }
