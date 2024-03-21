@@ -64,21 +64,15 @@ func (c *Calendly) GetEvents() ([]*Event, error) {
 	if err != nil {
 		return nil, err
 	}
-	for x := range j {
-		fmt.Println(x)
-	}
-	if c, ok := j["collection"]; ok {
-		events, err := populateEventsFromJSON(c)
-		if err != nil {
-			return nil, err
-		}
-		return events, nil
-	}
 
-	return nil, fmt.Errorf("no collection in scheduled_events response")
+	events, err := populateEventsFromJSON(j)
+	if err != nil {
+		return nil, err
+	}
+	return events, nil
 }
 
-func (c *Calendly) APIRequestToJSON(method string, params map[string]interface{}) (map[string]interface{}, error) {
+func (c *Calendly) APIRequestToJSON(method string, params map[string]interface{}) (interface{}, error) {
 	raw, err := c.APIRequest(method, params)
 	if err != nil {
 		return nil, err
@@ -90,7 +84,7 @@ func (c *Calendly) APIRequestToJSON(method string, params map[string]interface{}
 		return nil, err
 	}
 
-	return j.(map[string]interface{}), nil
+	return j, nil
 }
 
 func (c *Calendly) APIRequest(method string, params map[string]interface{}) ([]byte, error) {
