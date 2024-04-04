@@ -1,4 +1,4 @@
-module calendly
+module github.com/andvarienterprises/calendlydump
 
 go 1.21.3
 
