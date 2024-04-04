@@ -1,15 +1,31 @@
 package calendly
 
-import "time"
+import (
+	"strings"
+	"time"
+)
 
 type ExternalEvent struct {
 	external_id, kind string
+}
+
+type Invitee struct {
+	name, email, status string
 }
 
 type Event struct {
 	name, event_type, status, uri                string
 	start_time, end_time, created_at, updated_at *time.Time
 	calendar_event                               *ExternalEvent
+	invitees                                     []*Invitee
+}
+
+func (e *Event) UUID() string {
+	if e.uri != "" {
+		uri_fragments := strings.Split(e.uri, "/")
+		return uri_fragments[len(uri_fragments)-1]
+	}
+	return ""
 }
 
 func GetStringMap(i interface{}, k string) map[string]interface{} {
@@ -79,4 +95,36 @@ func populateEvent(j interface{}) (*Event, error) {
 	}
 
 	return &e, nil
+}
+
+func populateInviteesFromJSON(j interface{}) ([]*Invitee, error) {
+	ret := []*Invitee{}
+
+	if c, ok := j.(map[string]interface{})["collection"]; ok {
+		for _, je := range c.([]interface{}) {
+			e, err := populateInvitee(je)
+
+			if err != nil {
+				return nil, err
+			}
+			ret = append(ret, e)
+		}
+	}
+	return ret, nil
+}
+
+func populateInvitee(j interface{}) (*Invitee, error) {
+	ret := Invitee{}
+
+	// Ugh.
+	invitee_info := j.(map[string]interface{})
+
+	// Aaaand double-ugh.
+	invitee_name := strings.ReplaceAll(invitee_info["name"].(string), ",", "")
+
+	ret.name = invitee_name
+	ret.email = invitee_info["email"].(string)
+	ret.status = invitee_info["status"].(string)
+
+	return &ret, nil
 }

@@ -72,6 +72,22 @@ func (c *Calendly) GetEvents() ([]*Event, error) {
 	return events, nil
 }
 
+func (c *Calendly) PopulateInviteesForEvent(e *Event) error {
+	api_method := "scheduled_events/" + e.UUID() + "/invitees"
+
+	j, err := c.APIRequestToJSON(api_method, nil)
+	if err != nil {
+		return err
+	}
+
+	invitees, err := populateInviteesFromJSON(j)
+	if err != nil {
+		return err
+	}
+	e.invitees = invitees
+	return nil
+}
+
 func (c *Calendly) APIRequestToJSON(method string, params map[string]interface{}) (interface{}, error) {
 	raw, err := c.APIRequest(method, params)
 	if err != nil {

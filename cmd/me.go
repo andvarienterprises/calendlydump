@@ -26,7 +26,7 @@ func init() {
 	rootCmd.AddCommand(meCmd)
 }
 
-func doMe(cmd *cobra.Command, args []string) {
+func doMe(_ *cobra.Command, _ []string) {
 	c := calendly.NewCalendly()
 	err := c.SetAPIKeyFromFile(authTokenFile)
 	if err != nil {
