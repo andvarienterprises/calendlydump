@@ -1,6 +1,6 @@
 package main
 
-import "calendly/cmd"
+import "github.com/andvarienterprises/calendlydump/cmd"
 
 func main() {
 	cmd.Execute()
