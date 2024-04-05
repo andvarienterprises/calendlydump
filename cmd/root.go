@@ -9,8 +9,8 @@ import (
 var (
 	authTokenFile string
 	rootCmd       = &cobra.Command{
-		Use:   "calendly",
-		Short: "calendly is a CLI tool to manage your Calendly account.",
+		Use:   "calendlydump",
+		Short: "calendlydump is a CLI tool to spit out calendly event and invitee data",
 		// Run: func(cmd *cobra.Command, args []string) { },
 	}
 )
