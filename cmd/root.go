@@ -11,7 +11,6 @@ var (
 	rootCmd       = &cobra.Command{
 		Use:   "calendlydump",
 		Short: "calendlydump is a CLI tool to spit out calendly event and invitee data",
-		// Run: func(cmd *cobra.Command, args []string) { },
 	}
 )
 
@@ -23,6 +22,5 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.PersistentFlags().StringVar(&authTokenFile, "calendly-auth-token", "calendly.key", "The calendly authentication key filename")
 }
