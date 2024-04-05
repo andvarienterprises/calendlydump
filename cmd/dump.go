@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"calendly/calendly"
+	"github.com/andvarienterprises/calendlydump/calendly"
 	"fmt"
 	"log"
 
