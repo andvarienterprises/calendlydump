@@ -3,6 +3,9 @@ Dump calendly appointments to a spreadsheet (or stdout)
 Usage:
 
 ```
+# Get the tool
+go install github.com/andvarienterprises/calendlydump@0.0.1
+
 # Print info about me on calendly (mainly to see if the API key is working)
 calendlydump --calendly-auth-token=my.token.file me
 
